@@ -1,5 +1,5 @@
 {
-  "name": "schoolService",
+  "name": "school-service",
   "private": true,
   "scripts": {
     "build": "turbo run build",
