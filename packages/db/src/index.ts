@@ -5,16 +5,16 @@ export class DbManager {
   private connection: DataSource | null = null;
 
   constructor(private config: DataSourceOptions & { 
-    entitiesPath: string[];
-    migrationsPath: string[];
+    entities: Function[] | string[];  // Accept both class refs and paths
+    migrations: string[];
   }) {}
 
   async connect(): Promise<DataSource> {
     try {
       this.connection = await new DataSource({
         ...this.config,
-        entities: this.config.entitiesPath.map(p => path.resolve(p)),
-        migrations: this.config.migrationsPath.map(p => path.resolve(p)),
+        entities: this.config.entities,
+        migrations: this.config.migrations,
       }).initialize();
       
       console.log("✅ Database connected");
@@ -53,8 +53,8 @@ export class DbManager {
 // Utility function for quick initialization
 export const createDataSource = (
   options: DataSourceOptions & {
-    entitiesPath: string[];
-    migrationsPath: string[];
+    entities: Function[] | string[];  // Accept both class refs and paths
+    migrations: string[];
   }
 ) => {
   return new DbManager(options);
