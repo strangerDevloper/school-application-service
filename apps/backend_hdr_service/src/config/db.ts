@@ -1,5 +1,8 @@
+import { config } from 'dotenv';
 import { DbManager } from "@repo/db";
 import path from "path";
+
+config()
 
 export const dbManager = new DbManager({
   type: "postgres",
@@ -22,6 +25,3 @@ export const dbManager = new DbManager({
   // Migrations use glob (no class references)
   migrations: [path.join(__dirname, "../migrations/*.{js,ts}")],
 });
-
-// TypeORM CLI export (uses resolved paths)
-export const dataSource = dbManager.getConnection();
